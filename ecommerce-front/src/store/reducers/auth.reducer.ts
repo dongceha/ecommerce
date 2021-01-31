@@ -1,7 +1,12 @@
-import { AuthUnionType, SIGNUP, signup, SIGNUP_SUCCESS, SIGNUP_FAIL, RESET_SIGNUP } from './../actions/auth.actions';
+import { AuthUnionType, SIGNUP, signup, SIGNUP_SUCCESS, SIGNUP_FAIL, RESET_SIGNUP, SIGNIN, SIGNIN_SUCESS } from './../actions/auth.actions';
 
 export interface AuthState {
     signup: {
+        loaded: boolean;
+        success: boolean;
+        message: string;
+    },
+    signin: {
         loaded: boolean;
         success: boolean;
         message: string;
@@ -10,6 +15,11 @@ export interface AuthState {
 
 const intialState: AuthState = {
     signup: {
+        loaded: false,
+        success: false,
+        message: '',
+    },
+    signin: {
         loaded: false,
         success: false,
         message: '',
@@ -52,6 +62,33 @@ export default function authReducer (state = intialState, action: AuthUnionType)
                     loaded: false,
                     success: false,
                     message: '',
+                }
+            }
+        case SIGNIN:
+            return {
+                ...state,
+                signin: {
+                    loaded: false,
+                    success: false,
+                    message: '',
+                }
+            }
+        case SIGNIN_SUCESS: 
+            return {
+                ...state,
+                signin: {
+                    loaded: false,
+                    success: true,
+                    message: '',
+                }
+            }
+        case SIGNUP_FAIL: 
+            return {
+                ...state,
+                signin: {
+                    loaded: true,
+                    success: false,
+                    message: action.message,
                 }
             }
         default:

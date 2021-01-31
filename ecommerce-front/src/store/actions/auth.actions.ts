@@ -60,7 +60,7 @@ export interface SigninFailAction {
     message: string;
 }
 
-export const Sign = (payload: SigninPayload): SigninAction => ({
+export const signin = (payload: SigninPayload): SigninAction => ({
     type: SIGNIN,
     payload,
 })
