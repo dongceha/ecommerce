@@ -1,18 +1,26 @@
 import { Product } from '../modules/product';
-import { ProductUnionType, GET_PRODUCT, GET_PRODUCT_SUCCESS, SEARCH_PRODUCT_SUCCESS } from './../actions/product.actions';
+import { ProductUnionType, GET_PRODUCT, GET_PRODUCT_SUCCESS, SEARCH_PRODUCT_SUCCESS, FILTER_PRODUCT, FILTER_PRODUCT_SUCCESS } from './../actions/product.actions';
 
 export interface ProductState {
     createdAt: {
         loaded: boolean;
         success: boolean;
         products: Product[];
-    },
+    };
     sold: {
         loaded: boolean;
         success: boolean;
         products: Product[];
-    },
-    search: Product[]
+    };
+    search: Product[];
+    filter: {
+        loaded: boolean;
+        success: boolean;
+        result: {
+            size: number;
+            data: Product[];
+        }
+    }
 }
 const initialState: ProductState = {
     createdAt: {
@@ -25,7 +33,15 @@ const initialState: ProductState = {
         success: false,
         products: [],
     },
-    search: []
+    search: [],
+    filter: {
+        loaded: false,
+        success: false,
+        result: {
+            size: 0,
+            data: [],
+        }
+    }
 };
 
 export default function productReducer(state = initialState, action: ProductUnionType): ProductState {
@@ -53,6 +69,34 @@ export default function productReducer(state = initialState, action: ProductUnio
             return {
                 ...state,
                 search: action.products
+            }
+        case FILTER_PRODUCT:
+            return {
+                ...state,
+                filter: {
+                    loaded: false,
+                    success: false,
+                    result: {
+                        size: 0,
+                        data: []
+                    }
+                }
+            }
+        case FILTER_PRODUCT_SUCCESS:
+            let data = []
+            data = action.skip === 0 
+                ? action.payload.data 
+                : [...state.filter.result.data, ...action.payload.data];
+            return {
+                ...state,
+                filter: {
+                    loaded: true,
+                    success: true,
+                    result: {
+                        size: action.payload.size,
+                        data
+                    }
+                }
             }
         default:
             return state;
