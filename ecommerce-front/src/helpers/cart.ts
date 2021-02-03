@@ -23,3 +23,15 @@ export const addItem = (item: Product, next: () => void) => {
     localStorage.setItem('cart', JSON.stringify(cart));
     next();
 }
+
+/**
+ * 获取本地购物车数据
+ * */ 
+export const getCart = () => {
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
+            return JSON.parse(localStorage.getItem('cart')!) as CartItem[];
+        }
+    }
+    return []
+}
