@@ -1,5 +1,5 @@
 import { Product } from '../modules/product';
-import { ProductUnionType, GET_PRODUCT, GET_PRODUCT_SUCCESS, SEARCH_PRODUCT_SUCCESS, FILTER_PRODUCT, FILTER_PRODUCT_SUCCESS } from './../actions/product.actions';
+import { ProductUnionType, GET_PRODUCT, GET_PRODUCT_SUCCESS, SEARCH_PRODUCT_SUCCESS, FILTER_PRODUCT, FILTER_PRODUCT_SUCCESS, GET_PRODUCT_BY_ID, GET_PRODUCT_BY_ID_SUCCESS } from './../actions/product.actions';
 
 export interface ProductState {
     createdAt: {
@@ -20,6 +20,11 @@ export interface ProductState {
             size: number;
             data: Product[];
         }
+    };
+    product: {
+        loaded: boolean;
+        success: boolean;
+        result: Product;
     }
 }
 const initialState: ProductState = {
@@ -40,6 +45,25 @@ const initialState: ProductState = {
         result: {
             size: 0,
             data: [],
+        }
+    },
+    product: {
+        loaded: false,
+        success: false,
+        result: {
+            _id: '123',
+            name: '一身诗意千寻瀑',
+            price: 100,
+            description: '一身诗意千寻瀑',
+            category: {
+                _id: '456',
+                name: '小鱼萝莉',
+            },
+            quantity: 80,
+            sold: 6,
+            phono: new FormData(),
+            shipping: false,
+            createAt: '2020-20-20',
         }
     }
 };
@@ -78,7 +102,7 @@ export default function productReducer(state = initialState, action: ProductUnio
                     success: false,
                     result: {
                         size: 0,
-                        data: []
+                        data: state.filter.result.data
                     }
                 }
             }
@@ -96,6 +120,24 @@ export default function productReducer(state = initialState, action: ProductUnio
                         size: action.payload.size,
                         data
                     }
+                }
+            }
+        case GET_PRODUCT_BY_ID:
+            return {
+                ...state,
+                product: {
+                    ...state.product,
+                    loaded: false,
+                    success: false
+                }
+            }
+        case GET_PRODUCT_BY_ID_SUCCESS:
+            return {
+                ...state,
+                product: {
+                    loaded: true,
+                    success: true,
+                    result: action.payload
                 }
             }
         default:
