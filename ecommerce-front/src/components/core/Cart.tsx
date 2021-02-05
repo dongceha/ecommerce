@@ -44,7 +44,7 @@ const Cart = () => {
                     <Row>
                         <TotalPrice cart={cart} setTotalPrice={setTotalPrice} />
                     </Row>
-                    <Row><Pay /></Row>
+                    <Row><Pay totalPrice={totalPrice} cart={cart} address={address} /></Row>
                 </Col>
             </Row>
         </Layout>
@@ -52,3 +52,12 @@ const Cart = () => {
 }
 
 export default Cart;
+
+export const itemCount = () => {
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
+            return JSON.parse(localStorage.getItem('cart')!).length;
+        }
+    }
+    return 0;
+}
