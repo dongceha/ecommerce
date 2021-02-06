@@ -8,6 +8,7 @@ import Dashboard from './components/admin/Dashboard';
 import PrivateRoute from './components/admin/PrivateRoute';
 import Cart from './components/core/Cart';
 import Home from './components/core/Home';
+import Order from './components/core/Order';
 import Product from './components/core/Product';
 import Shop from './components/core/Shop';
 import Signin from './components/core/Signin';
@@ -29,6 +30,7 @@ const Routes = () => {
                 <AdminRoute path="/admin/dashboard" component={AdminDashboard} />
                 <AdminRoute path="/create/category" component={AddCategory} />
                 <AdminRoute path="/create/product" component={AddProduct} />
+                <AdminRoute path="/admin/orders" component={Order} />
             </Switch>
         </HashRouter>
     );
